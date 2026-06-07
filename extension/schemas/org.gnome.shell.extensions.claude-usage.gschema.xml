@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <enum id="org.gnome.shell.extensions.claude-usage.metric">
+    <value nick="five_hour" value="0"/>
+    <value nick="seven_day" value="1"/>
+    <value nick="min" value="2"/>
+  </enum>
+
+  <schema id="org.gnome.shell.extensions.claude-usage"
+          path="/org/gnome/shell/extensions/claude-usage/">
+
+    <key name="refresh-interval" type="i">
+      <default>120</default>
+      <range min="15" max="3600"/>
+      <summary>Network refresh interval (seconds)</summary>
+      <description>How often to fetch fresh usage figures from Anthropic. The countdown is updated locally between fetches.</description>
+    </key>
+
+    <key name="bar-metric" enum="org.gnome.shell.extensions.claude-usage.metric">
+      <default>'five_hour'</default>
+      <summary>Which window drives the panel text</summary>
+    </key>
+
+    <key name="show-countdown" type="b">
+      <default>true</default>
+      <summary>Show the reset countdown next to the percentage</summary>
+    </key>
+
+    <key name="show-percent-used" type="b">
+      <default>true</default>
+      <summary>Show percent used instead of percent remaining</summary>
+    </key>
+
+    <key name="warn-threshold" type="i">
+      <default>25</default>
+      <range min="0" max="100"/>
+      <summary>Remaining % at or below which the widget turns amber</summary>
+    </key>
+
+    <key name="critical-threshold" type="i">
+      <default>10</default>
+      <range min="0" max="100"/>
+      <summary>Remaining % at or below which the widget turns red</summary>
+    </key>
+
+    <key name="credentials-path" type="s">
+      <default>''</default>
+      <summary>Override path to Claude credentials.json (empty = ~/.claude/.credentials.json)</summary>
+    </key>
+  </schema>
+</schemalist>

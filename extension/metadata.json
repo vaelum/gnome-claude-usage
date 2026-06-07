@@ -1,0 +1,9 @@
+{
+  "uuid": "claude-usage@vaelum.de",
+  "name": "Claude Usage",
+  "description": "Shows your remaining Claude usage (the 5-hour and weekly windows) in the top bar with reset countdowns. Reads the official figures from Anthropic using your local Claude Code OAuth token — no estimation.",
+  "shell-version": ["45", "46", "47", "48", "49", "50"],
+  "settings-schema": "org.gnome.shell.extensions.claude-usage",
+  "url": "https://github.com/",
+  "version": 1
+}

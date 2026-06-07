@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# claude-usage — print your remaining Claude usage from the terminal.
+# Uses the same official endpoint as the GNOME widget and Claude Code's /usage.
+#
+#   claude-usage          pretty summary
+#   claude-usage --json   raw JSON from the API
+#
+# Env: CLAUDE_CREDENTIALS overrides the credentials path.
+set -euo pipefail
+
+CRED="${CLAUDE_CREDENTIALS:-$HOME/.claude/.credentials.json}"
+URL="https://api.anthropic.com/api/oauth/usage"
+
+[ -f "$CRED" ] || { echo "No Claude credentials at $CRED" >&2; exit 1; }
+
+TOKEN=$(jq -r '.claudeAiOauth.accessToken // empty' "$CRED")
+[ -n "$TOKEN" ] || { echo "No access token found in $CRED" >&2; exit 1; }
+
+RESP=$(curl -fsS --max-time 15 \
+    -H "Authorization: Bearer $TOKEN" \
+    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-beta: oauth-2025-04-20" \
+    -H "accept: application/json" \
+    "$URL") || { echo "Request failed (token expired? run 'claude' to refresh)" >&2; exit 1; }
+
+if [ "${1:-}" = "--json" ]; then
+    echo "$RESP" | jq .
+    exit 0
+fi
+
+echo "$RESP" | jq -r '
+  def line(name; o):
+    if o == null then empty
+    else "  \(name): \((100 - o.utilization) | floor)% left   resets \(o.resets_at[0:16] | sub("T"; " "))"
+    end;
+  "Claude usage remaining",
+  line("5-hour"; .five_hour),
+  line("Weekly (7d)"; .seven_day),
+  line("Weekly Opus"; .seven_day_opus),
+  line("Weekly Sonnet"; .seven_day_sonnet),
+  (if (.extra_usage.is_enabled // false)
+     then "  Extra usage: \(.extra_usage.currency) \(.extra_usage.used_credits) / \(.extra_usage.monthly_limit)"
+     else empty end)
+'

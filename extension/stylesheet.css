@@ -1,0 +1,41 @@
+.claude-usage-box {
+    spacing: 4px;
+}
+
+.claude-usage-label {
+    /* tabular figures so the countdown doesn't jitter as it ticks */
+    font-feature-settings: "tnum";
+}
+
+.claude-header {
+    font-weight: bold;
+}
+
+.claude-value {
+    font-weight: bold;
+}
+
+/* Tint the symbolic icon with Claude's brand orange by default. The warn/crit
+ * rules below have equal specificity and come later, so they still win when
+ * usage is high. */
+.claude-usage-box StIcon {
+    color: #d97757;
+}
+
+/* status colours cascade from the box to the label text and recolour the
+ * symbolic icon. */
+.claude-warn {
+    color: #e5a50a;
+}
+
+.claude-warn StIcon {
+    color: #e5a50a;
+}
+
+.claude-crit {
+    color: #e01b24;
+}
+
+.claude-crit StIcon {
+    color: #e01b24;
+}

@@ -29,7 +29,7 @@ import sys
 from pathlib import Path
 
 HARNESS_URL = "git+https://github.com/vaelum/butler-harness.git"
-HARNESS_REF = "v0.6.5"
+HARNESS_REF = "v0.6.6"
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 

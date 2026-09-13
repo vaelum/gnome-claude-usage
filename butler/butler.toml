@@ -1,0 +1,16 @@
+# butler configuration for gnome-claude-usage.
+#
+# Every section is optional; a component's commands appear only when it is
+# declared. `python butler.py --help` shows what this file produced, and
+# `python butler.py doctor` says whether the tooling for it is installed.
+
+[project]
+name = "gnome-claude-usage"
+dist = "dist"
+
+# --------------------------------------------------------------------------- #
+# publish — Copybara export to the public GitHub mirror
+# --------------------------------------------------------------------------- #
+
+# github.com/vaelum/gnome-claude-usage is generated from this repository's `main`; never
+# commit to it directly. `python butler.py publish check` says what would ship.
